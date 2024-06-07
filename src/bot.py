@@ -37,5 +37,7 @@ async def on_message(message):
     if message.content == 'sussy':
         response = random.choice(amogus_quotes)
         await message.channel.send(response)
+    else:
+        await message.channel.send('sussy')
 
 client.run(TOKEN)
