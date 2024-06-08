@@ -8,8 +8,14 @@ from dotenv import load_dotenv
 load_dotenv('./env/.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-
-client = discord.Client(intents=discord.Intents.default())
+intents=discord.Intents.default()
+intents.typing = True
+intents.presences = True
+intents.members = True
+intents.reactions = True
+intents.messages = True
+intents.message_content = True
+client = discord.Client(intents=intents)
 
 @client.event
 async def on_ready():
@@ -38,6 +44,7 @@ async def on_message(message):
         response = random.choice(amogus_quotes)
         await message.channel.send(response)
     else:
+        print(f'{message.author} said: {message.content}')
         await message.channel.send('sussy')
 
 client.run(TOKEN)
