@@ -5,7 +5,9 @@ import sys
 
 import discord
 from dotenv import load_dotenv
-sys.path.append('..')
+import os
+dir2_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
+sys.path.append(dir2_path)
 from create_meme import create_meme
 
 load_dotenv('./env/.env')
@@ -38,11 +40,9 @@ async def on_message(message):
     if message.author == client.user:
         return
     create_meme('meme1', message.content)
-    await message.channel.send(file=discord.File('../res/smoking_caterpillar_new.png'))
+    meme_path=os.path.abspath('./res/smoking_caterpillar_new.jpg')
+    await message.channel.send(file=discord.File(meme_path))
 
 
-
-client.run(TOKEN)
 if __name__ == '__main__' and __package__ is None:
-    from os import sys, path
-    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+    client.run(TOKEN)
