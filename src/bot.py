@@ -37,7 +37,15 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == client.user or message.content.startswith('!') or message.content.startswith('http') or message.content.startswith('https') or message.content.startswith('<'):
+        return
+    if message.content == 'raise-exception':
+        raise discord.DiscordException
+    if len(message.content) > 200:
+        await message.channel.send('Message is too long')
+        return
+    if ' ' not in message.content:
+        await message.channel.send('Message is too short')
         return
     create_meme('meme1', message.content)
     meme_path=os.path.abspath('./res/smoking_caterpillar_new.jpg')
