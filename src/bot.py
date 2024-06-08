@@ -1,9 +1,12 @@
 # bot.py
 import os
 import random
+import sys
 
 import discord
 from dotenv import load_dotenv
+sys.path.append('..')
+from create_meme import create_meme
 
 load_dotenv('./env/.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -34,17 +37,12 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
+    create_meme('meme1', message.content)
+    await message.channel.send(file=discord.File('../res/smoking_caterpillar_new.png'))
 
-    amogus_quotes = [
-        'sus',
-        'amogus',
-    ]
 
-    if message.content == 'sussy':
-        response = random.choice(amogus_quotes)
-        await message.channel.send(response)
-    else:
-        print(f'{message.author} said: {message.content}')
-        await message.channel.send('sussy')
 
 client.run(TOKEN)
+if __name__ == '__main__' and __package__ is None:
+    from os import sys, path
+    sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
