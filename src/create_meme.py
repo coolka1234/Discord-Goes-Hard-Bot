@@ -11,8 +11,8 @@ import constants as res
 log_path=os.path.abspath('./docs/bot.log')
 logging.basicConfig(level=logging.INFO, filename=log_path, filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
-def create_meme(template_name, text) -> None:
-    img = Image.open(res.image_path)
+def create_meme(template_number, text) -> None:
+    img = Image.open(res.image_path[template_number])
     width, height = img.size
     # width=int(width*0.90)
     max_width = width*2

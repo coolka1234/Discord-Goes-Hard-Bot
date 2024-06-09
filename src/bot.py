@@ -6,9 +6,11 @@ import sys
 import discord
 from dotenv import load_dotenv
 import os
+
 dir2_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
 from create_meme import create_meme
+import constants as const
 
 load_dotenv('./env/.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -32,8 +34,8 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-    members = '\n - '.join([member.name for member in guild.members])
-    print(f'Guild Members:\n - {members}')
+    # members = '\n - '.join([member.name for member in guild.members])
+    # print(f'Guild Members:\n - {members}')
 
 @client.event
 async def on_message(message):
@@ -47,8 +49,9 @@ async def on_message(message):
     if ' ' not in message.content:
         await message.channel.send('Message is too short')
         return
-    create_meme('meme1', message.content)
-    meme_path=os.path.abspath('./res/smoking_caterpillar_new.jpg')
+    chosen_template=random.randint(0, len(const.image_path)-1)
+    create_meme(chosen_template, message.content)
+    meme_path=os.path.abspath(const.name_to_save)
     await message.channel.send(file=discord.File(meme_path))
 
 
