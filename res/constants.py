@@ -3,4 +3,5 @@ image_path = ['./res/smoking_caterpillar.jpg', './res/smoking_monkey.jpg', './re
               './res/wiliam.jpg']
 name_to_save = './res/new_meme.jpg'
 scale_factor=0.97
-languages=['en', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'ko', 'pl']
+languages=['es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'ko', 'pl']
+sentences_path = './res/sentences.csv'
