@@ -1,5 +1,15 @@
+# sentence generator using DialoGPT
+from ast import mod
+import pandas as pd
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import wonderwords
+from googletrans import Translator, LANGUAGES
+import csv
+import os
+import sys
+dir2_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
+sys.path.append(dir2_path)
+import constants as res
 
 model_name = "microsoft/DialoGPT-medium"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -22,15 +32,25 @@ def generate_discord_message(prompt, max_length=150, num_return_sequences=30):
     generated_messages = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
     return generated_messages
 
-prompt = ""
-messages = []
-num_of_prompts= 100
-for i in range(num_of_prompts):
-    prompt = wonderwords.RandomWord().word()
-    messages.append(generate_discord_message(prompt, num_return_sequences=1))
 
-print(messages)
+def generate_file_of_sentences(number : int):
+    messages = []
+    for i in range(number):
+        prompt = wonderwords.RandomWord().word()
+        messages.append(generate_discord_message(prompt, num_return_sequences=1))
+    sentences = pd.DataFrame(columns=['sentence']+res.languages+['Hard'])
+    language_translator = Translator()
+    for i, sentence in enumerate(messages):
+        sentences.loc[i, 'sentence'] = sentence[0]
+        for lang in res.languages:
+            if lang == 'en':
+                continue
+            translation = language_translator.translate(sentence[0], dest=lang).text
+            sentences.loc[i, lang] = translation
+    if not os.path.exists(res.sentences_path):
+        sentences.to_csv(res.sentences_path, index=False)
+    else:
+        sentences.to_csv(res.sentences_path, index=False, mode='a', header=False)
 
-
-# for i, message in enumerate(messages):
-#     print(f"Generated Message {i + 1}: {message[0]}")
+if __name__ == "__main__":
+    generate_file_of_sentences(10)
