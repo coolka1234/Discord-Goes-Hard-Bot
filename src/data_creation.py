@@ -50,10 +50,11 @@ def create_ui(sentences):
 
 def get_sentences():
     sentences = pd.read_csv(res.sentences_path)
+    sentences = sentences[sentences['Hard'].isnull()]
     for sentence in sentences['sentence']:
         yield sentence
             
 
 if __name__ == "__main__":
-    sentences = iter(['Do you like Python?', 'Do you like Java?', 'Do you like C++?'])
+    sentences = get_sentences()
     create_ui(sentences)
