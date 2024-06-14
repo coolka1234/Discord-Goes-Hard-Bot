@@ -48,9 +48,9 @@ def generate_file_of_sentences(number : int):
             translation = language_translator.translate(sentence[0], dest=lang).text
             sentences.loc[i, lang] = translation
     if not os.path.exists(res.sentences_path):
-        sentences.to_csv(res.sentences_path, index=False)
+        sentences.to_csv(res.sentences_path, index=True)
     else:
-        sentences.to_csv(res.sentences_path, index=False, mode='a', header=False)
+        sentences.to_csv(res.sentences_path, index=True, mode='a', header=False)
 
 if __name__ == "__main__":
     generate_file_of_sentences(10)
