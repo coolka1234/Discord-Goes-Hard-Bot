@@ -4,6 +4,7 @@ import pandas as pd
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import wonderwords
 from googletrans import Translator, LANGUAGES
+from sqlalchemy import create_engine
 import csv
 import os
 import sys
@@ -14,6 +15,7 @@ import constants as res
 model_name = "microsoft/DialoGPT-medium"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
+model.generation_config.pad_token_id = tokenizer.pad_token_id
 
 def generate_discord_message(prompt, max_length=150, num_return_sequences=30):
     inputs = tokenizer.encode(prompt, return_tensors='pt')
@@ -47,10 +49,8 @@ def generate_file_of_sentences(number : int):
                 continue
             translation = language_translator.translate(sentence[0], dest=lang).text
             sentences.loc[i, lang] = translation
-    if not os.path.exists(res.sentences_path):
-        sentences.to_csv(res.sentences_path, index=True)
-    else:
-        sentences.to_csv(res.sentences_path, index=True, mode='a', header=False)
+    con= create_engine('sqlite:///'+res.sentences_path)
+    sentences.to_sql(res.sentences_path, if_exists='append', index=True, con=con, chunksize=1000)
 
 if __name__ == "__main__":
     generate_file_of_sentences(10)

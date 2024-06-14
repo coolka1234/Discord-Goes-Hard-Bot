@@ -4,4 +4,4 @@ image_path = ['./res/smoking_caterpillar.jpg', './res/smoking_monkey.jpg', './re
 name_to_save = './res/new_meme.jpg'
 scale_factor=0.97
 languages=['es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'ko', 'pl']
-sentences_path = './res/sentences.csv'
+sentences_path = './res/sentences.db'
