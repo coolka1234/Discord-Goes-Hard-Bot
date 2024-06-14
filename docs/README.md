@@ -1,2 +1,8 @@
-# Discord-Goes-Hard-Bot
+# Discord Goes Hard Bot
 Discord bot to detect if the message "goes hard" using machine learning, and then turn that message into some meme.
+# How it works
+* Scans messages on a given guild in discord
+* Every message is scanned and fed into handcrafted model
+* No message is ever saved or stored! It is deleted as soon as it is processed and flagged.
+* The model does not train on any users meesages. It trains on datased created using wonderwods + DialloGPT
+* If the message is deemed "hard" the bot takes one of the images in resource folder and creates a meme with it using PIL
