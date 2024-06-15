@@ -50,7 +50,7 @@ def generate_file_of_sentences(number : int):
             translation = language_translator.translate(sentence[0], dest=lang).text
             sentences.loc[i, lang] = translation
     con= create_engine('sqlite:///'+res.sentences_path)
-    sentences.to_sql(res.sentences_path, if_exists='append', index=True, con=con, chunksize=1000)
+    sentences.to_sql(res.db_name, if_exists='append', index=True, con=con, chunksize=1000)
 
 if __name__ == "__main__":
-    generate_file_of_sentences(10)
+    generate_file_of_sentences(100)
