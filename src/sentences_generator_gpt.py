@@ -11,8 +11,10 @@ import os
 import sys
 dir2_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
+dir3_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../database'))
+sys.path.append(dir3_path)
+import sentences as db_sentences
 import constants as res
-import database_tools as dbt
 
 model_name = "microsoft/DialoGPT-medium"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -42,7 +44,7 @@ def generate_file_of_sentences(number : int):
     for i in range(number):
         prompt = wonderwords.RandomWord().word()
         messages.append(generate_discord_message(prompt, num_return_sequences=1))
-    sentences = pd.DataFrame(columns=['sentence']+res.languages+['Hard'])
+    sentences = pd.DataFrame(columns=['sentence']+res.languages+['hard'])
     language_translator = Translator()
     for i, sentence in enumerate(messages):
         sentences.loc[i, 'sentence'] = sentence[0]
@@ -52,9 +54,9 @@ def generate_file_of_sentences(number : int):
             translation = language_translator.translate(sentence[0], dest=lang).text
             sentences.loc[i, lang] = translation
     con= create_engine('sqlite:///'+res.sentences_path)
-    last_index = dbt.get_last_index(con, res.db_name)
-    sentences.index = range(last_index+1, last_index+1+number)
+    last_index = db_sentences.get_last_index()
+    sentences['index'] = np.arange(last_index+1, last_index+1+number)
     sentences.to_sql(res.db_name, if_exists='append', index=True, con=con, chunksize=1000)
 
 if __name__ == "__main__":
-    generate_file_of_sentences(100)
+    generate_file_of_sentences(10)

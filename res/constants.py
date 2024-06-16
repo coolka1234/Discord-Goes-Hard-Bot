@@ -5,4 +5,4 @@ name_to_save = './res/new_meme.jpg'
 scale_factor=0.97
 languages=['es', 'fr', 'de', 'it', 'pt', 'ru', 'ja', 'ko', 'pl']
 sentences_path = './database/sentences.db'
-db_name='sentences.db'
+db_name='sentences'

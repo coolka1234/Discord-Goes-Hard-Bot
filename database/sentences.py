@@ -45,6 +45,6 @@ def get_all_sentences():
 
 def get_last_index():
     with engine.connect() as connection:
-        result = connection.execute(table_sentences.select().with_only_columns([table_sentences.columns.index]).order_by(table_sentences.columns.index.desc()).limit(1))
+        result = connection.execute(table_sentences.select().with_only_columns(table_sentences.columns.index).order_by(table_sentences.columns.index.desc()).limit(1))
         return result.fetchone()[0]
 
