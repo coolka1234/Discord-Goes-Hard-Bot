@@ -45,6 +45,7 @@ def generate_file_of_sentences(number : int):
         prompt = wonderwords.RandomWord().word()
         messages.append(generate_discord_message(prompt, num_return_sequences=1))
     sentences = pd.DataFrame(columns=['sentence']+res.languages+['hard'])
+    sentences.index.name = 'index'
     language_translator = Translator()
     for i, sentence in enumerate(messages):
         sentences.loc[i, 'sentence'] = sentence[0]
@@ -54,9 +55,11 @@ def generate_file_of_sentences(number : int):
             translation = language_translator.translate(sentence[0], dest=lang).text
             sentences.loc[i, lang] = translation
     con= create_engine('sqlite:///'+res.sentences_path)
+    print(sentences)
     last_index = db_sentences.get_last_index()
-    sentences['index'] = np.arange(last_index+1, last_index+1+number)
+    sentences.index = np.arange(last_index+1, last_index+1+number)
+    print(sentences)
     sentences.to_sql(res.db_name, if_exists='append', index=True, con=con, chunksize=1000)
 
 if __name__ == "__main__":
-    generate_file_of_sentences(10)
+    generate_file_of_sentences(3)
