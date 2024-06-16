@@ -1,6 +1,7 @@
 # sentence generator using DialoGPT
 from ast import mod
 import pandas as pd
+import numpy as np
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import wonderwords
 from googletrans import Translator, LANGUAGES
@@ -11,6 +12,7 @@ import sys
 dir2_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
 import constants as res
+import database_tools as dbt
 
 model_name = "microsoft/DialoGPT-medium"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -50,6 +52,8 @@ def generate_file_of_sentences(number : int):
             translation = language_translator.translate(sentence[0], dest=lang).text
             sentences.loc[i, lang] = translation
     con= create_engine('sqlite:///'+res.sentences_path)
+    last_index = dbt.get_last_index(con, res.db_name)
+    sentences.index = range(last_index+1, last_index+1+number)
     sentences.to_sql(res.db_name, if_exists='append', index=True, con=con, chunksize=1000)
 
 if __name__ == "__main__":
