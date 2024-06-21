@@ -15,7 +15,7 @@ def create_meme(template_number, text) -> None:
     img = Image.open(res.image_path[template_number])
     width, height = img.size
     # width=int(width*0.90)
-    max_width = width*2
+    max_width = width*2 # comment
     font_size=calculate_font_size(text, ImageFont.truetype('arial', 1), max_width* res.scale_factor)
     if font_size == 0:
         return
