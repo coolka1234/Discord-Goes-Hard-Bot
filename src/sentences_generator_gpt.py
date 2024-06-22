@@ -40,6 +40,7 @@ def generate_discord_message(prompt, max_length=150, num_return_sequences=30):
 
 
 def generate_file_of_sentences(number : int):
+    print(res.languages)
     messages = []
     for i in range(number):
         prompt = wonderwords.RandomWord().word()
