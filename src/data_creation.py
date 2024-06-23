@@ -1,8 +1,10 @@
+from operator import index
 import tkinter as tk
 from tkinter import font
 import os
 import sys
 import pandas as pd
+from sqlalchemy import create_engine
 dir2_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
 import constants as res
@@ -10,25 +12,32 @@ dir2_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../da
 sys.path.append(dir2_path)
 import sentences as db
 
+
 def create_ui(sentences):
+
+    generator=get_db_sentences()
+    index=1
     def on_yes():
-        db.update_hard_by_index(1, True)
+        db.update_hard_by_index(index, True)
+        index_processed += 1
         get_next_sentence()
 
     def on_no():
-        db.update_hard_by_index(1, False)
+        db.update_hard_by_index(index, False)
+        index_processed += 1
         get_next_sentence()
 
     def get_next_sentence():
         try:
-            sentence = next(sentences)
+            sentence, index = generator.__next__()
             label.config(text=sentence)
         except StopIteration:
             root.quit()
 
     root = tk.Tk()
     root.title("Data creations")
-    root.geometry("800x400")  
+    root.geometry("800x400")
+      
 
     label_font = font.Font(root, family="Helvetica", size=24, weight="bold")
     button_font = font.Font(root, family="Helvetica", size=18)
@@ -52,11 +61,14 @@ def create_ui(sentences):
 def get_sentences():
     sentences = pd.read_csv(res.sentences_path)
     sentences = sentences[sentences['hard'].isnull()]
+    index_processed = db.get_last_index()
     for sentence in sentences['sentence']:
-        yield sentence
+        yield sentence, index_processed
+        index_processed += 1
 
 def get_db_sentences():
-    sentences = db.get_all_sentences()
+    engine=create_engine('sqlite:///'+res.sentences_path, echo=True)
+    sentences = pd.read_sql('select * from sentences', engine)
     sentences = sentences[sentences['hard'].isnull()]
     for sentence in sentences:
         yield sentence[1]
