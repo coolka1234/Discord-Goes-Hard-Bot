@@ -12,13 +12,11 @@ import sentences as db
 
 def create_ui(sentences):
     def on_yes():
-        with open('user_choices.txt', 'a') as f:
-            f.write('True\n')
+        db.update_hard_by_index(1, True)
         get_next_sentence()
 
     def on_no():
-        with open('user_choices.txt', 'a') as f:
-            f.write('False\n')
+        db.update_hard_by_index(1, False)
         get_next_sentence()
 
     def get_next_sentence():
