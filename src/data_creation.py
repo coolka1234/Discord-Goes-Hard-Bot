@@ -6,6 +6,9 @@ import pandas as pd
 dir2_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
 import constants as res
+dir2_path: str = os.path.normpath(os.path.join(os.path.dirname(__file__), '../database'))
+sys.path.append(dir2_path)
+import sentences as db
 
 def create_ui(sentences):
     def on_yes():
@@ -53,8 +56,13 @@ def get_sentences():
     sentences = sentences[sentences['Hard'].isnull()]
     for sentence in sentences['sentence']:
         yield sentence
+
+def get_db_sentences():
+    sentences = db.get_all_sentences()
+    for sentence in sentences:
+        yield sentence[1]
             
 
 if __name__ == "__main__":
-    sentences = get_sentences()
+    sentences = get_db_sentences()
     create_ui(sentences)
