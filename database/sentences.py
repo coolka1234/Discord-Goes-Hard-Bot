@@ -50,6 +50,9 @@ def get_last_index():
         if result is None:
             return 0
         return result[0]
+def update_hard_by_index(index : Integer, value : bool):
+    with engine.connect() as connection:
+        connection.execute(table_sentences.update().where(table_sentences.columns.index == index).values(hard=value))
 
 if __name__=='__main__':
     create_database()

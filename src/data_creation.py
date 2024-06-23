@@ -53,12 +53,13 @@ def create_ui(sentences):
 
 def get_sentences():
     sentences = pd.read_csv(res.sentences_path)
-    sentences = sentences[sentences['Hard'].isnull()]
+    sentences = sentences[sentences['hard'].isnull()]
     for sentence in sentences['sentence']:
         yield sentence
 
 def get_db_sentences():
     sentences = db.get_all_sentences()
+    sentences = sentences[sentences['hard'].isnull()]
     for sentence in sentences:
         yield sentence[1]
             
