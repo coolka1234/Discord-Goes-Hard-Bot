@@ -40,7 +40,6 @@ def generate_discord_message(prompt, max_length=150, num_return_sequences=30):
 
 
 def generate_file_of_sentences(number : int):
-    print(res.languages)
     messages = []
     for i in range(number):
         prompt = wonderwords.RandomWord().word()
@@ -56,11 +55,14 @@ def generate_file_of_sentences(number : int):
             translation = language_translator.translate(sentence[0], dest=lang).text
             sentences.loc[i, lang] = translation
     con= create_engine('sqlite:///'+res.sentences_path)
-    print(sentences)
     last_index = db_sentences.get_last_index()
     sentences.index = np.arange(last_index+1, last_index+1+number)
-    print(sentences)
     sentences.to_sql(res.db_name, if_exists='append', index=True, con=con, chunksize=1000)
 
 if __name__ == "__main__":
-    generate_file_of_sentences(3)
+    if len(sys.argv) != 2:
+        generate_file_of_sentences(10)
+        print("Usage: python sentences_generator_gpt.py <number>")
+        print("If no number is provided, 10 sentences will be generated")
+    else:
+        generate_file_of_sentences(int(sys.argv[1]))
