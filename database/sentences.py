@@ -32,6 +32,7 @@ def drop_database():
 def insert_sentence(index, sentence, es, fr, de, it, pt, ru, ja, ko, pl, hard):
     with engine.connect() as connection:
         connection.execute(table_sentences.insert().values(index=index, sentence=sentence, es=es, fr=fr, de=de, it=it, pt=pt, ru=ru, ja=ja, ko=ko, pl=pl, hard=hard))
+        connection.commit()
 
 def get_sentence(index):
     with engine.connect() as connection:
@@ -54,11 +55,12 @@ def get_last_index():
 def update_hard_by_index(index : int, value : bool):
     with engine.connect() as connection:
         connection.execute(table_sentences.update().where(table_sentences.columns.index == index).values(hard=value))
-
+        connection.commit()
 
 
 
 if __name__=='__main__':
     create_database()
+    insert_sentence(4, 'Hello', 'Hola', 'Bonjour', 'Hallo', 'Ciao', 'Olá', 'Привет', 'こんにちは', '안녕하세요', 'Cześć', False)
 
 
