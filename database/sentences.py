@@ -51,7 +51,7 @@ def get_last_index():
             return 0
         return result[0]
     
-def update_hard_by_index(index : Integer, value : bool):
+def update_hard_by_index(index : Integer, value : Boolean):
     with engine.connect() as connection:
         connection.execute(table_sentences.update().where(table_sentences.columns.index == index).values(hard=value))
 

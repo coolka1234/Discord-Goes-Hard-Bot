@@ -18,19 +18,20 @@ def create_ui(sentences):
     generator=get_db_sentences()
     index=1
     def on_yes():
-        db.update_hard_by_index(index, True)
-        index_processed += 1
+        index=int_var.get()
+        db.update_hard_by_index(index=index, value=True)
         get_next_sentence()
 
     def on_no():
-        db.update_hard_by_index(index, False)
-        index_processed += 1
+        index=int_var.get()
+        db.update_hard_by_index(index=index, value=False)
         get_next_sentence()
 
     def get_next_sentence():
         try:
-            sentence, index = generator.__next__()
+            sentence, index = next(generator)
             label.config(text=sentence)
+            int_var.set(index)
         except StopIteration:
             root.quit()
 
@@ -43,7 +44,9 @@ def create_ui(sentences):
     button_font = font.Font(root, family="Helvetica", size=18)
 
     label = tk.Label(root, text='', font=label_font)
-    label.pack(pady=50)  
+    label.pack(pady=50)
+
+    int_var = tk.IntVar()
 
     button_frame = tk.Frame(root)
     button_frame.pack(pady=20)  
@@ -61,7 +64,6 @@ def create_ui(sentences):
 def get_sentences():
     sentences = pd.read_csv(res.sentences_path)
     sentences = sentences[sentences['hard'].isnull()]
-    index_processed = db.get_last_index()
     for sentence in sentences['sentence']:
         yield sentence, index_processed
         index_processed += 1
@@ -70,8 +72,8 @@ def get_db_sentences():
     engine=create_engine('sqlite:///'+res.sentences_path, echo=True)
     sentences = pd.read_sql('select * from sentences', engine)
     sentences = sentences[sentences['hard'].isnull()]
-    for sentence in sentences:
-        yield sentence[1]
+    for index, sentence in sentences.iterrows():
+        yield sentence['sentence'], sentence['index']
             
 
 if __name__ == "__main__":
