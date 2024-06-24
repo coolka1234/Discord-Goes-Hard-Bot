@@ -57,10 +57,13 @@ def update_hard_by_index(index : int, value : bool):
         connection.execute(table_sentences.update().where(table_sentences.columns.index == index).values(hard=value))
         connection.commit()
 
-
+def drop_sentence_by_index(index : int):
+    with engine.connect() as connection:
+        connection.execute(table_sentences.delete().where(table_sentences.columns.index == index))
+        connection.commit()
 
 if __name__=='__main__':
     create_database()
-    insert_sentence(4, 'Hello', 'Hola', 'Bonjour', 'Hallo', 'Ciao', 'Olá', 'Привет', 'こんにちは', '안녕하세요', 'Cześć', False)
+    # insert_sentence(4, 'Hello', 'Hola', 'Bonjour', 'Hallo', 'Ciao', 'Olá', 'Привет', 'こんにちは', '안녕하세요', 'Cześć', False)
 
 
