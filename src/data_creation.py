@@ -40,7 +40,7 @@ def create_ui(sentences):
     root.geometry("800x400")
       
 
-    label_font = font.Font(root, family="Helvetica", size=24, weight="bold")
+    label_font = font.Font(root, family="Helvetica", size=120, weight="bold")
     button_font = font.Font(root, family="Helvetica", size=18)
 
     label = tk.Label(root, text='', font=label_font)
