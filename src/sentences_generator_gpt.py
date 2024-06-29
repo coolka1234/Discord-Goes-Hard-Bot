@@ -21,7 +21,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 model.generation_config.pad_token_id = tokenizer.pad_token_id
 
-def generate_discord_message(prompt, max_length=150, num_return_sequences=30):
+def generate_discord_message(prompt, max_length=150, num_return_sequences=30) -> list[str]:
     inputs = tokenizer.encode(prompt, return_tensors='pt')
     
     outputs = model.generate(

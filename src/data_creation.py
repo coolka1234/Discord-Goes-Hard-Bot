@@ -26,7 +26,7 @@ def create_ui(sentences):
         index=int_var.get()
         db.update_hard_by_index(index=index, value=False)
         get_next_sentence()
-
+    
     def get_next_sentence():
         try:
             sentence, index = next(generator)
@@ -36,6 +36,9 @@ def create_ui(sentences):
             root.quit()
 
     root = tk.Tk()
+    root.bind('<Key-a>', on_yes)
+    root.bind('<Key-d>', on_no)
+    
     root.title("Data creations")
     root.geometry("800x400")
       
