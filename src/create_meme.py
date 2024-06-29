@@ -18,13 +18,12 @@ def create_meme(template_number, text) -> None:
     max_width = width*2 # 
     font_size=calculate_font_size(text, ImageFont.truetype('arial', 1), max_width* res.scale_factor) # wont work on linux, hast to be installed
     if font_size == 0:
-        return
+        return     
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype('arial', font_size) 
     text_w, text_h=textsize(text, font)
     logging.info(f"Drawing: text_w: {text_w}, text_h: {text_h}")
     logging.info(f"Drawing: width: {width}, height: {height}")
-    top_text = text
     bottom_text = ""
 
     while draw.textlength(top_text, font_size=font_size) > width:
