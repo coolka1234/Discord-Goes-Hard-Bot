@@ -61,8 +61,8 @@ def generate_file_of_sentences(number : int):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        generate_file_of_sentences(10)
         print("Usage: python sentences_generator_gpt.py <number>")
         print("If no number is provided, 10 sentences will be generated")
+        generate_file_of_sentences(10)
     else:
         generate_file_of_sentences(int(sys.argv[1]))
