@@ -17,12 +17,12 @@ def create_ui(sentences):
 
     generator=get_db_sentences()
     index=1
-    def on_yes():
+    def on_yes(event=None):
         index=int_var.get()
         db.update_hard_by_index(index=index, value=True)
         get_next_sentence()
 
-    def on_no():
+    def on_no(event=None):
         index=int_var.get()
         db.update_hard_by_index(index=index, value=False)
         get_next_sentence()
