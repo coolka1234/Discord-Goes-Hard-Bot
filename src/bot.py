@@ -43,10 +43,10 @@ async def on_message(message):
     if message.content == 'raise-exception':
         raise discord.DiscordException
     if len(message.content) > 200:
-        await message.channel.send('Message is too long')
+        # await message.channel.send('Message is too long')
         return
     if ' ' not in message.content:
-        await message.channel.send('Message is too short')
+        # await message.channel.send('Message is too short')
         return
     if predict_if_hard(message.content):
         chosen_template=random.randint(0, len(const.image_path)-1)
