@@ -6,7 +6,7 @@ import sys
 import discord
 from dotenv import load_dotenv
 import os
-
+from classificator.predict import predict_if_hard
 dir2_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
 from create_meme import create_meme
@@ -48,10 +48,11 @@ async def on_message(message):
     if ' ' not in message.content:
         await message.channel.send('Message is too short')
         return
-    chosen_template=random.randint(0, len(const.image_path)-1)
-    create_meme(chosen_template, message.content)
-    meme_path=os.path.abspath(const.name_to_save)
-    await message.channel.send(file=discord.File(meme_path))
+    if predict_if_hard(message.content):
+        chosen_template=random.randint(0, len(const.image_path)-1)
+        create_meme(chosen_template, message.content)
+        meme_path=os.path.abspath(const.name_to_save)
+        await message.channel.send(file=discord.File(meme_path))
 
 
 if __name__ == '__main__' and __package__ is None:

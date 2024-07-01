@@ -24,6 +24,7 @@ def create_meme(template_number, text) -> None:
     text_w, text_h=textsize(text, font)
     logging.info(f"Drawing: text_w: {text_w}, text_h: {text_h}")
     logging.info(f"Drawing: width: {width}, height: {height}")
+    top_text = text
     bottom_text = ""
 
     while draw.textlength(top_text, font_size=font_size) > width:
