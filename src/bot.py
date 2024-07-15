@@ -6,11 +6,14 @@ import sys
 import discord
 from dotenv import load_dotenv
 import os
+
+from sympy import im
 from classificator.predict import predict_if_hard
 dir2_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
 from create_meme import create_meme
 import constants as const
+import logging
 
 load_dotenv('./env/.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -29,11 +32,10 @@ async def on_ready():
     for guild in client.guilds:
         if guild.name == GUILD:
             break
-
-    print(
+    logging.info(
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
-    )
+    ) 
 
 
 @client.event
@@ -44,10 +46,13 @@ async def on_message(message):
         raise discord.DiscordException
     if len(message.content) > 200:
         # await message.channel.send('Message is too long')
+        logging.info(f"Message is too long: {message.content}")
         return
     if ' ' not in message.content:
         # await message.channel.send('Message is too short')
+        logging.info(f"Message is too short: {message.content}")
         return
+        
     if predict_if_hard(message.content):
         chosen_template=random.randint(0, len(const.image_path)-1)
         create_meme(chosen_template, message.content)
