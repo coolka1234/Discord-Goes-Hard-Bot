@@ -1,3 +1,4 @@
+# classificator.py
 from random import sample
 from nltk.util import pr
 import pandas as pd

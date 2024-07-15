@@ -1,3 +1,4 @@
+# predict.py
 import pickle
 import googletrans
 def predict_if_hard(sentence):
