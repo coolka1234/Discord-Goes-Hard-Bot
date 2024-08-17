@@ -8,7 +8,7 @@ Discord bot to detect if the message "goes hard" using machine learning, and the
 * Data handcafted and flagged manually utilizng tkinter GUI for convenience.
 * No message is ever saved or stored! It is deleted as soon as it is processed and flagged.
 * The model does not train on any users messages. It trains on datased created using wonderwords + DialloGPT, stored in SQLite3 utilising SQLAlchemy.
-* If the message is deemed "hard" the bot takes one of the images in resource folder and creates a meme with it using PIL
+* If the message is deemed "hard" the bot takes one of the images in resource folder and creates a meme with it using PIL.
 * Utilizes complex discord perms.
 * Uses dotenv for correct secret shadowing.
 ## Example:
