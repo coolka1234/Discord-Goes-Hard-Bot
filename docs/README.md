@@ -1,5 +1,5 @@
 # Discord Goes Hard Bot
-Discord bot to detect if the message "goes hard" using machine learning, and then turn that message into some meme.
+Discord bot to detect if the message "goes hard" using machine learning, and then turn that message into some sort of meme.
 # How it works
 * Scans messages on a given guild in discord.
 * Translates them into english, using language detection from googletrans.
