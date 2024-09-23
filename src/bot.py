@@ -55,6 +55,7 @@ async def on_message(message):
         return
     if message.content.startswith("!memize "):
         message.content=message.content.replace("!memize ", "")
+        logging.debug(f"forced with command")
         force=True
         
     if predict_if_hard(message.content) or force:
