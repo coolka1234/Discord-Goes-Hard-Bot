@@ -6,8 +6,8 @@ import sys
 import discord
 from dotenv import load_dotenv
 import os
+from discord.ext import commands
 
-from sympy import im
 from classificator.predict import predict_if_hard
 dir2_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '../res'))
 sys.path.append(dir2_path)
@@ -58,6 +58,15 @@ async def on_message(message):
         create_meme(chosen_template, message.content)
         meme_path=os.path.abspath(const.name_to_save)
         await message.channel.send(file=discord.File(meme_path))
+
+bot=commands.Bot(command_prefix='!', intents=intents)
+@bot.command
+async def memize(ctx, *args):
+    chosen_template=random.randint(0, len(const.image_path)-1)
+    message=' '.join(args)
+    create_meme(chosen_template, message)
+    meme_path=os.path.abspath(const.name_to_save)
+    await ctx.send(file=discord.File(meme_path))
 
 
 if __name__ == '__main__' and __package__ is None:
