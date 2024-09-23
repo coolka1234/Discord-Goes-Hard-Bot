@@ -62,6 +62,7 @@ async def on_message(message):
 bot=commands.Bot(command_prefix='!', intents=intents)
 @bot.command
 async def memize(ctx, *args):
+    logging.debug(f"Command called")
     chosen_template=random.randint(0, len(const.image_path)-1)
     message=' '.join(args)
     create_meme(chosen_template, message)
