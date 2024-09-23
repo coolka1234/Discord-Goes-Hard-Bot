@@ -38,7 +38,7 @@ async def on_ready():
     ) 
 
 
-@client.event
+# @client.event
 async def on_message(message):
     if message.author == client.user or message.content.startswith('!') or message.content.startswith('http') or message.content.startswith('https') or message.content.startswith('<'):
         return
