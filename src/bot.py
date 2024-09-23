@@ -38,9 +38,10 @@ async def on_ready():
     ) 
 
 
-# @client.event
+@client.event
 async def on_message(message):
-    if message.author == client.user or message.content.startswith('!') or message.content.startswith('http') or message.content.startswith('https') or message.content.startswith('<'):
+    force=False
+    if message.author == client.user or message.content.startswith('http') or message.content.startswith('https') or message.content.startswith('<'):
         return
     if message.content == 'raise-exception':
         raise discord.DiscordException
@@ -52,8 +53,11 @@ async def on_message(message):
         # await message.channel.send('Message is too short')
         logging.info(f"Message is too short: {message.content}")
         return
+    if message.content.startswith("!memize "):
+        message.content=message.content.replace("!memize ", "")
+        force=True
         
-    if predict_if_hard(message.content):
+    if predict_if_hard(message.content) or force:
         chosen_template=random.randint(0, len(const.image_path)-1)
         create_meme(chosen_template, message.content)
         meme_path=os.path.abspath(const.name_to_save)
