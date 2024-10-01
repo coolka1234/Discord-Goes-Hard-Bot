@@ -11,5 +11,6 @@ Discord bot to detect if the message "goes hard" using machine learning, and the
 * If the message is deemed "hard" the bot takes one of the images in resource folder and creates a meme with it using PIL,
 * Utilizes complex discord perms,
 * Uses dotenv for correct secret shadowing.
+* Working commands
 ## Example:
 ![obraz](https://github.com/coolka1234/Discord-Goes-Hard-Bot/assets/88340455/e706a20a-d082-4083-8880-660bd6ea7b73)
