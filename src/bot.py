@@ -74,6 +74,10 @@ async def memize(ctx, *args):
     meme_path=os.path.abspath(const.name_to_save)
     await ctx.send(file=discord.File(meme_path))
 
+async def mute_bot(ctx, member):
+    await ctx.send(f'{member} is muted')
+    await member.edit(mute=True) 
+
 
 if __name__ == '__main__' and __package__ is None:
     client.run(TOKEN)
